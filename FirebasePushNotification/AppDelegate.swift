@@ -54,10 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if let messageID = userInfo[gcmMessageIDKey] {
       print("Message ID: \(messageID)")
     }
-    
+
     // Print full message.
     print(userInfo)
+    
   }
+    
   
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -76,8 +78,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     completionHandler(UIBackgroundFetchResult.newData)
   }
+  
+    
   // [END receive_message]
   func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    
     print("Unable to register for remote notifications: \(error.localizedDescription)")
   }
   
@@ -85,10 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // If swizzling is disabled then this function must be implemented so that the APNs token can be paired to
   // the FCM registration token.
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    
     print("APNs token retrieved: \(deviceToken)")
     
     // With swizzling disabled you must set the APNs token here.
-    // Messaging.messaging().apnsToken = deviceToken
+     Messaging.messaging().apnsToken = deviceToken
   }
 }
 
@@ -113,7 +119,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     print(userInfo)
     
     // Change this to your preferred presentation option
-    completionHandler([])
+    completionHandler([.alert, .sound])
   }
   
   func userNotificationCenter(_ center: UNUserNotificationCenter,
